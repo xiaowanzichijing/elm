@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.example.admin.mapper.AdminMapper">
+
+    <insert id="insertBusiness">
+        Insert Into business
+        (businessName,businessAddress,businessImg,businessExplain,starPrice,deliveryPrice)
+        value(#{businessName}, #{businessAddress}, #{businessImg}, #{businessExplain}, #{starPrice}, #{deliveryPrice})
+    </insert>
+    <insert id="insertFood">
+        Insert Into food
+        (foodName,foodExplain,foodImg,foodPrice,businessId)
+            value(#{foodName}, #{foodExplain}, #{foodImg}, #{foodPrice},#{businessId})
+    </insert>
+    <update id="deleteBusiness">
+        UPDATE business SET isDeleted = 1 WHERE businessId = #{businessId}
+    </update>
+    <update id="updateBusinessInfo">
+        update business SET
+        businessName=#{businessName},
+        businessAddress=#{businessAddress},
+        businessImg=#{businessImg},
+        businessExplain=#{businessExplain},
+        starPrice= #{starPrice},
+        deliveryPrice=#{deliveryPrice}
+        where businessId = #{businessId}
+    </update>
+    <update id="deleteFood">
+        UPDATE food SET isDeleted = 1 WHERE foodId = #{foodId}
+    </update>
+    <update id="updateFoodInfo">
+        update food SET
+        foodName=#{foodName},
+        foodExplain=#{foodExplain},
+        foodImg=#{foodImg},
+        foodPrice=#{foodPrice}
+        where foodId = #{foodId}
+    </update>
+    <select id="getAllBusiness" resultType="ynu.com.common.entity.Business">
+        SELECT * FROM business
+        WHERE business.businessName LIKE #{keywords} and business.isDeleted=0
+            LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+    <select id="getBusinessTotalCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) AS total_count
+        FROM business
+        WHERE business.businessName LIKE #{keywords} and business.isDeleted=0
+    </select>
+    <select id="getFoodTotalCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) AS total_count
+        FROM food
+        where businessId=#{businessId} and isDeleted=0
+    </select>
+    <select id="getFoodListById" resultType="ynu.com.common.entity.Food">
+        SELECT * FROM food
+        WHERE businessId=#{businessId} and isDeleted=0
+            LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+</mapper>
