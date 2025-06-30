@@ -1,0 +1,119 @@
+services:
+
+  eureka-server1:
+    image: register:latest
+    container_name: eureka001
+    ports:
+      - "9901:8761" # 通常Eureka使用8761端口
+    environment:
+      - server.port=8761
+      - eureka.instance.hostname=eureka1
+      - eureka.client.service-url.defaultZone=http://eureka002:8761/eureka/,http://eureka003:8761/eureka/
+
+  eureka-server2:
+    image: register:latest
+    container_name: eureka002
+    ports:
+      - "9902:8761"
+    environment:
+      - server.port=8761
+      - eureka.instance.hostname=eureka2
+      - eureka.client.service-url.defaultZone=http://eureka001:8761/eureka/,http://eureka003:8761/eureka/
+
+  eureka-server3:
+    image: register:latest
+    container_name: eureka003
+    ports:
+      - "9903:8761"
+    environment:
+      - server.port=8761
+      - eureka.instance.hostname=eureka3
+      - eureka.client.service-url.defaultZone=http://eureka001:8761/eureka/,http://eureka002:8761/eureka/
+
+  user-server:
+    image: user:latest
+    container_name: user
+    ports:
+      - "9904:80"
+    environment:
+      - server.port=80
+
+      - eureka.client.service-url.defaultZone=http://eureka001:8761/eureka/,http://eureka002:8761/eureka/,http://eureka003:8761/eureka/
+
+  orders-server:
+    image: orders:latest
+    container_name: orders
+    ports:
+      - "9905:80"
+    environment:
+      - server.port=80
+      - eureka.client.service-url.defaultZone=http://eureka001:8761/eureka/,http://eureka002:8761/eureka/,http://eureka003:8761/eureka/
+
+  gateway-server:
+    image: gateway:latest
+    container_name: gateway1
+    ports:
+      - "9906:80"
+    environment:
+      - server.port=80
+      - eureka.client.service-url.defaultZone=http://eureka001:8761/eureka/,http://eureka002:8761/eureka/,http://eureka003:8761/eureka/
+
+  food-server:
+    image: food:latest
+    container_name: food
+    ports:
+      - "9907:80"
+    environment:
+      - server.port=80
+      - eureka.client.service-url.defaultZone=http://eureka001:8761/eureka/,http://eureka002:8761/eureka/,http://eureka003:8761/eureka/
+
+  deliveryaddress-server:
+    image: deliveryaddress:latest
+    container_name: delivery
+    ports:
+      - "9908:80"
+    environment:
+      - server.port=80
+      - eureka.client.service-url.defaultZone=http://eureka001:8761/eureka/,http://eureka002:8761/eureka/,http://eureka003:8761/eureka/
+
+  cart-server:
+    image: cart:latest
+    container_name: cart
+    ports:
+      - "9909:80"
+    environment:
+      - server.port=80
+      - eureka.client.service-url.defaultZone=http://eureka001:8761/eureka/,http://eureka002:8761/eureka/,http://eureka003:8761/eureka/
+
+  business-server:
+    image: business:latest
+    container_name: business
+    ports:
+      - "9910:80"
+    environment:
+      - server.port=80
+      - eureka.client.service-url.defaultZone=http://eureka001:8761/eureka/,http://eureka002:8761/eureka/,http://eureka003:8761/eureka/
+  admin-server1:
+    image: admin:latest
+    container_name: admin1
+    ports:
+      - "9911:80"
+    environment:
+      - server.port=80
+      - eureka.client.service-url.defaultZone=http://eureka001:8761/eureka/,http://eureka002:8761/eureka/,http://eureka003:8761/eureka/
+  admin-server2:
+    image: admin:latest
+    container_name: admin2
+    ports:
+      - "9912:80"
+    environment:
+      - server.port=80
+      - eureka.client.service-url.defaultZone=http://eureka001:8761/eureka/,http://eureka002:8761/eureka/,http://eureka003:8761/eureka/
+  admin-server3:
+    image: admin:latest
+    container_name: admin3
+    ports:
+      - "9913:80"
+    environment:
+      - server.port=80
+      - eureka.client.service-url.defaultZone=http://eureka001:8761/eureka/,http://eureka002:8761/eureka/,http://eureka003:8761/eureka/
